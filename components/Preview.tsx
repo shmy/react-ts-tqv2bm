@@ -1,30 +1,29 @@
 import React from 'react';
 import AntdComponents from './AntdComponents';
-
+import DraggableComponent from './DraggableComponent';
+import {cloneDeep} from 'lodash';
 const Preview: React.FC<{
   schemas: any[],
-  onSelected: (schema: any, indexPath: string) => void
+  onSelected: (indexPath: string) => void
 }> = ({schemas, onSelected}) => {
-  const renderDeep = (schemas: any[], indexPath: string) => {
+   const renderDeep = (schemas: any[], indexPath: string) => {
     return schemas.map((schema, index) => {
       if (typeof schema === 'string' || React.isValidElement(schema)) {
         return schema;
       }
       const currentIndex = `${indexPath}.${index}`;
-      if (schema[2] && Array.isArray(schema[2])) {
-        schema[2] = renderDeep(schema[2], currentIndex);
+      if (schema.children && Array.isArray(schema.children)) {
+        schema.children = renderDeep(schema.children, currentIndex);
       }
-      schema[1] = schema[1] ? schema[1] : {};
-      schema[1].key = index;
-      schema[1].onClick = () => {
-        onSelected(schema, currentIndex.replace(/^\.?/, ''));
+      schema.props = schema.props ? schema.props : {};
+      schema.props.onClick = () => {
+        onSelected(currentIndex.replace(/^\.?/, ''));
       };
-      // @ts-ignore
-      return React.createElement(AntdComponents[schema[0]], schema[1], schema[2]);
+      return React.createElement(DraggableComponent, null, React.createElement(AntdComponents[schema.tag], schema.props, schema.children));
     });
   };
   return (
-    <>{renderDeep(schemas, '')}</>
+    <>{renderDeep(cloneDeep(schemas), '')}</>
   );
 };
 

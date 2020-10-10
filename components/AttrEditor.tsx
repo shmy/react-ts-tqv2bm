@@ -1,5 +1,6 @@
 import React from 'react';
 import ButtonEditor from './editors/ButtonEditor';
+import SelectEditor from './editors/SelectEditor';
 
 const AttrEditor: React.FC<{
   schema?: any,
@@ -9,9 +10,12 @@ const AttrEditor: React.FC<{
     return null;
   }
   let content = null;
-  switch (schema[0]) {
+  switch (schema.tag) {
     case 'button':
       content = <ButtonEditor onChanged={onChanged} schema={schema}/>
+    break;
+    case 'select':
+      content = <SelectEditor onChanged={onChanged} schema={schema}/>
     break;
     default:
     break;

@@ -1,0 +1,25 @@
+{
+  "$schema": "./schema.json",
+  "version": "0.1",
+  "config": [
+    {
+      "tag": "button",
+      "props": {
+        "style": {}
+      },
+      "children": [
+        "dsa"
+      ]
+    },
+    {
+      "tag": "button",
+      "props": {
+        "style": {
+          "marginLeft": "10px",
+          "padding": 0
+        }
+      },
+      "children": "dsadassa"
+    }
+  ]
+}

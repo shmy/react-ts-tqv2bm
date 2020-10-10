@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "config": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/component"
+      }
+    }
+  },
+  "required": [
+    "version"
+  ],
+  "definitions": {
+    "component": {
+      "type": "object",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "description": "Component/Tag name"
+        },
+        "props": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "style": {
+                  "type": "object"
+                }
+              }
+            }
+          ]
+        },
+        "children": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/component"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
